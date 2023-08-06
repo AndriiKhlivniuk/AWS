@@ -12,7 +12,6 @@ load_dotenv()
 aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
 aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 
-print(aws_access_key_id)
 
 client = boto3.resource('sqs', region_name='us-east-1', aws_access_key_id=aws_access_key_id,
     aws_secret_access_key=aws_secret_access_key)
