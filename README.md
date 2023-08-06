@@ -1,4 +1,2 @@
 # AWS
-
-You are connectiong to my AWS accout with my public and priivate key.
-To make program work boto3 should be installed o your machine. 
+This code reads messages from an SQS queue, processes the content of an S3 file, and sends an email using AWS SES.

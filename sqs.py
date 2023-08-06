@@ -4,13 +4,18 @@ import pandas
 from botocore.exceptions import ClientError
 from urllib.parse import urlparse
 import io
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+# Access AWS credentials from environment variables
+aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
+aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
 
+print(aws_access_key_id)
 
-
-
-client = boto3.resource('sqs', region_name='us-east-1', aws_access_key_id='AKIAU3PVWX2NDD27EV5A',
-    aws_secret_access_key='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')
+client = boto3.resource('sqs', region_name='us-east-1', aws_access_key_id=aws_access_key_id,
+    aws_secret_access_key=aws_secret_access_key)
 		
 
 						# SQS
@@ -29,8 +34,8 @@ s3_name = t.netloc.split('.s3')[0]
 
 
 s3 =  boto3.resource('s3',
-          aws_access_key_id='AKIAU3PVWX2NDD27EV5A',
-          aws_secret_access_key= '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')
+          aws_access_key_id=aws_access_key_id,
+          aws_secret_access_key= aws_secret_access_key)
 
 content_object = s3.Object(s3_name, file_name)
 file_content = content_object.get()['Body'].read().decode('utf-8')
@@ -51,16 +56,16 @@ response = queue.send_message(MessageBody='Success!')
 
 
 ses_client = boto3.client('ses', region_name='us-east-1',
-            aws_access_key_id='AKIAU3PVWX2NDD27EV5A',
-          aws_secret_access_key= 'M39Z8nRdjyu7MUQ6kuXY8xNU/H7KX0iUyuXMY39B')
-
+            aws_access_key_id=aws_access_key_id,
+          aws_secret_access_key= aws_secret_access_key)
+email = 'youremail@gmail.com'
 response = ses_client.send_email(
-    Source='khlivnia@tcd.ie',
+    Source=email,
     Destination={
-        'ToAddresses': ['khlivnia@tcd.ie'],
-        'CcAddresses': ['khlivnia@tcd.ie'],
+        'ToAddresses': [email],
+        'CcAddresses': [email],
     },
-    ReplyToAddresses=['khlivnia@tcd.ie'],
+    ReplyToAddresses=[email],
     Message={
         'Subject': {
             'Data': 'Result',
